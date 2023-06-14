@@ -169,3 +169,10 @@ fun ValidationRuleBuilder<String>.emoji() =
       "|[\\ud83d\\ud000-\\ud83d\\udfff]|[\\ud83e\\ud000-\\ud83e\\udfff]" +
       "|[\\ud83c\\udc00-\\ud83c\\udfff]|[\\ud83d\\udc00-\\ud83d\\udfff]|[\\u2600-\\u27ff])").toRegex().matches(it)
   }
+
+fun ValidationRuleBuilder<Int>.emojiInCodePoint() =
+  addValidator("must be a valid emoji unicode set") {
+    ("(\\u00a9|\\u00ae|[\\u2000-\\u3300]|[\\ud83c\\ud000-\\ud83c\\udfff]" +
+      "|[\\ud83d\\ud000-\\ud83d\\udfff]|[\\ud83e\\ud000-\\ud83e\\udfff]" +
+      "|[\\ud83c\\udc00-\\ud83c\\udfff]|[\\ud83d\\udc00-\\ud83d\\udfff]|[\\u2600-\\u27ff])").toRegex().matches(Character.toString(it))
+  }
