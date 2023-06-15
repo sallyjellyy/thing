@@ -1,5 +1,7 @@
 package so.kciter.thing.validator
 
+import java.lang.NumberFormatException
+
 inline fun <reified T> ValidationRuleBuilder<*>.type() =
   addValidator(
     "must be of the correct type"
@@ -163,16 +165,12 @@ fun <T: Number> ValidationRuleBuilder<T>.positiveOrZero(): Validator<T> =
 fun <T: Number> ValidationRuleBuilder<T>.negativeOrZero(): Validator<T> =
   addValidator("must be a negative number or zero") { it.toDouble() <= 0 }
 
+/**
+ * Validates if this string contains emoji only.
+ */
 fun ValidationRuleBuilder<String>.emoji() =
   addValidator("must be a valid emoji unicode set") {
     ("(\\u00a9|\\u00ae|[\\u2000-\\u3300]|[\\ud83c\\ud000-\\ud83c\\udfff]" +
       "|[\\ud83d\\ud000-\\ud83d\\udfff]|[\\ud83e\\ud000-\\ud83e\\udfff]" +
       "|[\\ud83c\\udc00-\\ud83c\\udfff]|[\\ud83d\\udc00-\\ud83d\\udfff]|[\\u2600-\\u27ff])").toRegex().matches(it)
-  }
-
-fun ValidationRuleBuilder<Int>.emojiInCodePoint() =
-  addValidator("must be a valid emoji unicode set") {
-    ("(\\u00a9|\\u00ae|[\\u2000-\\u3300]|[\\ud83c\\ud000-\\ud83c\\udfff]" +
-      "|[\\ud83d\\ud000-\\ud83d\\udfff]|[\\ud83e\\ud000-\\ud83e\\udfff]" +
-      "|[\\ud83c\\udc00-\\ud83c\\udfff]|[\\ud83d\\udc00-\\ud83d\\udfff]|[\\u2600-\\u27ff])").toRegex().matches(Character.toString(it))
   }
